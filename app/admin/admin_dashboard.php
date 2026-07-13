@@ -138,7 +138,23 @@ $adminUsername = htmlspecialchars($loggedAdminUsername, ENT_QUOTES, 'UTF-8');
             font-weight: 700;
         }
 
+        .menu .menu-logout {
+            text-decoration: none;
+            background: #ffffff;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
         .menu a:hover {
+            background: #f8fafc;
+        }
+
+        .menu .menu-logout:hover {
             background: #f8fafc;
         }
 
@@ -195,7 +211,8 @@ $adminUsername = htmlspecialchars($loggedAdminUsername, ENT_QUOTES, 'UTF-8');
         @media (max-width: 740px) {
             body { padding: 14px; }
             .panel { padding: 16px; }
-            .menu a { flex: 1; text-align: center; }
+            .menu a,
+            .menu .menu-logout { flex: 1; text-align: center; }
         }
     </style>
 </head>

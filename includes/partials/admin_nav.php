@@ -23,7 +23,7 @@ if ($adminNavMode === 'menu') {
     echo '<form method="POST" action="admin_login.php" class="d-inline m-0">';
     echo '<input type="hidden" name="action" value="logout">';
     echo '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($_SESSION['admin_logout_csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') . '">';
-    echo '<button type="submit" class="btn btn-link p-0 text-decoration-none">Logout</button>';
+    echo '<button type="submit" class="menu-logout">Logout</button>';
     echo '</form>';
     echo '</nav>';
     return;
