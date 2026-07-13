@@ -129,7 +129,7 @@ $searchValue = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
 
             <div class="section-hero">
                 <p class="page-kicker">Directory</p>
-                <h3 class="page-title"><span class="hero-chip">D</span>Doctor Registry</h3>
+                <h3 class="page-title">Doctor Registry</h3>
                 <p class="page-subtitle">Maintain doctor profiles and keep specialties searchable for appointment matching.</p>
             </div>
 

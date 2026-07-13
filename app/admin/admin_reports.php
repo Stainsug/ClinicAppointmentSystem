@@ -137,7 +137,7 @@ $statusSummaryValues = [
             </div>
             <div class="section-hero">
                 <p class="page-kicker">Insights</p>
-                <h3 class="page-title"><span class="hero-chip">R</span>Clinic Performance Snapshot</h3>
+                <h3 class="page-title">Clinic Performance Snapshot</h3>
                 <p class="page-subtitle">Track trends, status mix, and doctor workload from one unified reporting view.</p>
             </div>
             <div class="kpi-grid">

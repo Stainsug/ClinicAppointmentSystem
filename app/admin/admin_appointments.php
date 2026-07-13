@@ -177,7 +177,7 @@ $searchValue = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
 
             <div class="section-hero">
                 <p class="page-kicker">Operations</p>
-                <h3 class="page-title"><span class="hero-chip">A</span>Appointment Control Center</h3>
+                <h3 class="page-title">Appointment Control Center</h3>
                 <p class="page-subtitle">Review patient bookings, update statuses, and monitor progress with filters.</p>
             </div>
 
