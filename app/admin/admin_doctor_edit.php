@@ -108,7 +108,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/refined-theme.css">
     <style>
-        body { background: linear-gradient(135deg, #f3f8ff, #e7f8ee); min-height: 100vh; }
+        body {
+            background:
+                linear-gradient(135deg, rgba(243, 248, 255, 0.56), rgba(231, 248, 238, 0.56)),
+                url('assets/images/admin-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(135deg, #f3f8ff, #e7f8ee);
+            background-blend-mode: normal;
+            min-height: 100vh;
+        }
         .page-wrap { max-width: 760px; margin: 34px auto; padding: 0 16px; }
         .panel { background: #fff; border-radius: 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); padding: 24px; }
     </style>

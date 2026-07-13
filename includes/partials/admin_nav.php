@@ -2,6 +2,10 @@
 $adminNavMode = $adminNavMode ?? 'buttons';
 $adminActivePage = $adminActivePage ?? '';
 
+if (session_status() === PHP_SESSION_ACTIVE && empty($_SESSION['admin_logout_csrf_token'])) {
+    $_SESSION['admin_logout_csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $items = [
     ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => 'admin_dashboard.php'],
     ['key' => 'doctors', 'label' => 'Doctors', 'href' => 'admin_doctors.php'],
@@ -16,7 +20,11 @@ if ($adminNavMode === 'menu') {
         $activeClass = $adminActivePage === $item['key'] ? 'active' : '';
         echo '<a class="' . $activeClass . '" href="' . htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($item['label'], ENT_QUOTES, 'UTF-8') . '</a>';
     }
-    echo '<a href="admin_login.php?logout=1">Logout</a>';
+    echo '<form method="POST" action="admin_login.php" class="d-inline m-0">';
+    echo '<input type="hidden" name="action" value="logout">';
+    echo '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($_SESSION['admin_logout_csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') . '">';
+    echo '<button type="submit" class="btn btn-link p-0 text-decoration-none">Logout</button>';
+    echo '</form>';
     echo '</nav>';
     return;
 }
@@ -31,5 +39,9 @@ foreach ($items as $item) {
 
     echo '<a class="' . $btnClass . '" href="' . htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($item['label'], ENT_QUOTES, 'UTF-8') . '</a>';
 }
-echo '<a class="btn btn-outline-danger" href="admin_login.php?logout=1">Logout</a>';
+echo '<form method="POST" action="admin_login.php" class="d-inline m-0">';
+echo '<input type="hidden" name="action" value="logout">';
+echo '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($_SESSION['admin_logout_csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') . '">';
+echo '<button type="submit" class="btn btn-outline-danger">Logout</button>';
+echo '</form>';
 echo '</div>';

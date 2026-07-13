@@ -124,7 +124,11 @@ if ($doctorStmt) {
     <link rel="stylesheet" href="assets/css/refined-theme.css">
     <style>
         body {
-            background: linear-gradient(140deg, #f4f8ff, #e8f7ee);
+            background:
+                linear-gradient(140deg, rgba(244, 248, 255, 0.56), rgba(232, 247, 238, 0.56)),
+                url('assets/images/doctor-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(140deg, #f4f8ff, #e8f7ee);
+            background-blend-mode: normal;
             min-height: 100vh;
         }
 
@@ -145,7 +149,11 @@ if ($doctorStmt) {
 <body>
     <div class="page-wrap">
         <div class="panel">
-            <h2 class="mb-3">Edit Availability Slot</h2>
+            <div class="section-hero">
+                <p class="page-kicker">Scheduling</p>
+                <h3 class="page-title">Edit Availability Slot</h3>
+                <p class="page-subtitle">Adjust the date or time to keep your calendar accurate for patients.</p>
+            </div>
 
             <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger">

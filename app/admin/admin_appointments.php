@@ -39,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $affected = mysqli_stmt_affected_rows($updateStmt);
             mysqli_stmt_close($updateStmt);
 
-            if ($affected >= 0) {
+            if ($affected > 0) {
                 $success = 'Appointment status updated.';
             } else {
-                $errors[] = 'Failed to update appointment status.';
+                $errors[] = 'No appointment was updated. It may already have this status or not exist.';
             }
         }
     }
@@ -148,11 +148,19 @@ $searchValue = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/refined-theme.css">
     <style>
-        body { background: linear-gradient(135deg, #f3f8ff, #e7f8ee); min-height: 100vh; }
+        body {
+            background:
+                linear-gradient(135deg, rgba(243, 248, 255, 0.56), rgba(231, 248, 238, 0.56)),
+                url('assets/images/admin-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(135deg, #f3f8ff, #e7f8ee);
+            background-blend-mode: normal;
+            min-height: 100vh;
+        }
         .page-wrap { max-width: 1240px; margin: 30px auto; padding: 0 16px; }
         .panel { background: #fff; border-radius: 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); padding: 24px; }
         .title-row { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
         .filter-row { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+        .filter-form { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
     </style>
 </head>
 <body>
@@ -165,6 +173,12 @@ $searchValue = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
                     $adminActivePage = 'appointments';
                     require __DIR__ . '/../../includes/partials/admin_nav.php';
                 ?>
+            </div>
+
+            <div class="section-hero">
+                <p class="page-kicker">Operations</p>
+                <h3 class="page-title"><span class="hero-chip">A</span>Appointment Control Center</h3>
+                <p class="page-subtitle">Review patient bookings, update statuses, and monitor progress with filters.</p>
             </div>
 
             <?php if (!empty($errors)): ?>
@@ -182,7 +196,7 @@ $searchValue = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
             <?php endif; ?>
 
             <div class="filter-row">
-                <form method="GET" action="" class="d-flex gap-2 align-items-center">
+                <form method="GET" action="" class="filter-form">
                     <label for="status" class="form-label mb-0">Filter Status</label>
                     <select class="form-select" style="min-width: 180px;" id="status" name="status">
                         <option value="">All Statuses</option>
@@ -244,7 +258,13 @@ $searchValue = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="8" class="text-center text-muted py-4">No appointments found.</td>
+                                <td colspan="8">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">?</div>
+                                        <h4>No appointments found</h4>
+                                        <p>Try broadening your filters or clearing search to see more records.</p>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

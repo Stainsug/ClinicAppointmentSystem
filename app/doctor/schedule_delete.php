@@ -2,7 +2,18 @@
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/doctor_auth.php';
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: schedule_manage.php');
+    exit;
+}
+
+$csrfToken = $_POST['csrf_token'] ?? '';
+if (empty($_SESSION['doctor_schedule_csrf_token']) || !hash_equals($_SESSION['doctor_schedule_csrf_token'], $csrfToken)) {
+    header('Location: schedule_manage.php');
+    exit;
+}
+
+$id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 
 if ($id <= 0) {
     header('Location: schedule_manage.php');

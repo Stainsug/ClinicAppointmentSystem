@@ -218,7 +218,11 @@ if ($slotsResult) {
             margin: 0;
             min-height: 100vh;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--bg-a), var(--bg-b));
+            background:
+                linear-gradient(135deg, rgba(247, 251, 255, 0.56), rgba(236, 253, 245, 0.56)),
+                url('assets/images/patient-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(135deg, var(--bg-a), var(--bg-b));
+            background-blend-mode: normal;
             color: var(--text);
             padding: 24px;
         }
@@ -454,7 +458,8 @@ if ($slotsResult) {
         <section class="panel">
             <div class="heading">
                 <div>
-                    <h1>Book Appointment</h1>
+                    <p class="page-kicker">Patient Portal</p>
+                    <h1 class="page-title" style="margin-top: 2px;"><span class="hero-chip">P</span>Book Appointment</h1>
                     <p class="muted">Welcome, <?php echo $patientName; ?>. Pick a doctor and reserve an available slot.</p>
                 </div>
                 <div class="actions">
@@ -507,7 +512,11 @@ if ($slotsResult) {
                     <?php endforeach; ?>
                 <?php else: ?>
                     <article class="doctor-card">
-                        <p class="text-muted" style="margin: 0;">No doctors found yet.</p>
+                        <div class="empty-state" style="padding: 16px 10px;">
+                            <div class="empty-icon">D</div>
+                            <h4>No doctors available</h4>
+                            <p>Check back soon after the admin adds doctor profiles.</p>
+                        </div>
                     </article>
                 <?php endif; ?>
             </div>
@@ -566,7 +575,13 @@ if ($slotsResult) {
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" class="text-muted" style="text-align: center; padding: 18px;">No schedule slots available yet.</td>
+                                <td colspan="7">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">T</div>
+                                        <h4>No schedule slots available</h4>
+                                        <p>Doctors have not published upcoming times yet. Please check again later.</p>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

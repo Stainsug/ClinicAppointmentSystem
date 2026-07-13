@@ -5,6 +5,14 @@ require_once __DIR__ . '/../../includes/doctor_auth.php';
 $errors = [];
 $success = '';
 
+if (empty($_SESSION['doctor_schedule_csrf_token'])) {
+    $_SESSION['doctor_schedule_csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if (empty($_SESSION['doctor_logout_csrf_token'])) {
+    $_SESSION['doctor_logout_csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $doctor_id = (string)$loggedDoctorId;
 $available_date = '';
 $available_time = '';
@@ -20,9 +28,14 @@ if (isset($_GET['success'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf_token'] ?? '';
     $doctor_id = (string)$loggedDoctorId;
     $available_date = trim($_POST['available_date'] ?? '');
     $available_time = trim($_POST['available_time'] ?? '');
+
+    if (!hash_equals($_SESSION['doctor_schedule_csrf_token'], $csrfToken)) {
+        $errors[] = 'Invalid request token. Please refresh and try again.';
+    }
 
     if ($available_date === '') {
         $errors[] = 'Available date is required.';
@@ -132,7 +145,11 @@ if ($scheduleStmt) {
     <link rel="stylesheet" href="assets/css/refined-theme.css">
     <style>
         body {
-            background: linear-gradient(140deg, #f4f8ff, #e8f7ee);
+            background:
+                linear-gradient(140deg, rgba(244, 248, 255, 0.56), rgba(232, 247, 238, 0.56)),
+                url('assets/images/doctor-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(140deg, #f4f8ff, #e8f7ee);
+            background-blend-mode: normal;
             min-height: 100vh;
         }
 
@@ -166,8 +183,18 @@ if ($scheduleStmt) {
                 <h2 class="mb-0">Doctor Availability Scheduling</h2>
                 <div class="d-flex gap-2">
                     <a href="dashboard.php" class="btn btn-outline-secondary">Back to Dashboard</a>
-                    <a href="doctor_login.php?logout=1" class="btn btn-outline-danger">Doctor Logout</a>
+                    <form method="POST" action="doctor_login.php" class="m-0">
+                        <input type="hidden" name="action" value="logout">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['doctor_logout_csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <button type="submit" class="btn btn-outline-danger">Doctor Logout</button>
+                    </form>
                 </div>
+            </div>
+
+            <div class="section-hero">
+                <p class="page-kicker">Scheduling</p>
+                <h3 class="page-title">Publish Your Availability</h3>
+                <p class="page-subtitle">Add precise date and time slots so patients can discover and book you quickly.</p>
             </div>
 
             <?php if ($success !== ''): ?>
@@ -185,6 +212,7 @@ if ($scheduleStmt) {
             <?php endif; ?>
 
             <form method="POST" action="" class="row g-3">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['doctor_schedule_csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="col-md-4">
                     <label class="form-label">Doctor</label>
                     <input type="text" class="form-control" value="<?php echo htmlspecialchars(trim($doctorName . ' - ' . $doctorSpecialization, ' -'), ENT_QUOTES, 'UTF-8'); ?>" readonly>
@@ -208,7 +236,8 @@ if ($scheduleStmt) {
         </div>
 
         <div class="panel">
-            <h4 class="mb-3">Availability Slots</h4>
+            <h4 class="mb-2">Availability Slots</h4>
+            <p class="page-subtitle" style="margin-bottom: 12px;">Keep this list current to avoid missed bookings.</p>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover align-middle mb-0">
                     <thead class="table-dark">
@@ -232,13 +261,23 @@ if ($scheduleStmt) {
                                     <td><?php echo htmlspecialchars(substr($schedule['available_time'], 0, 5), ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td>
                                         <a class="btn btn-sm btn-primary" href="schedule_edit.php?id=<?php echo (int)$schedule['schedule_id']; ?>">Edit</a>
-                                        <a class="btn btn-sm btn-danger" href="schedule_delete.php?id=<?php echo (int)$schedule['schedule_id']; ?>" onclick="return confirm('Delete this availability slot?');">Delete</a>
+                                        <form method="POST" action="schedule_delete.php" class="d-inline m-0" onsubmit="return confirm('Delete this availability slot?');">
+                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['doctor_schedule_csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
+                                            <input type="hidden" name="id" value="<?php echo (int)$schedule['schedule_id']; ?>">
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6" class="text-center text-muted py-4">No availability slots found.</td>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">+</div>
+                                        <h4>No availability slots yet</h4>
+                                        <p>Add your first slot above so patients can start booking you.</p>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

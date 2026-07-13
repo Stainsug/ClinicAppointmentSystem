@@ -80,7 +80,11 @@ $adminUsername = htmlspecialchars($loggedAdminUsername, ENT_QUOTES, 'UTF-8');
             min-height: 100vh;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text);
-            background: linear-gradient(140deg, var(--bg-a), var(--bg-b));
+            background:
+                linear-gradient(140deg, rgba(245, 249, 255, 0.56), rgba(233, 248, 240, 0.56)),
+                url('assets/images/admin-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(140deg, var(--bg-a), var(--bg-b));
+            background-blend-mode: normal;
             padding: 22px;
         }
 

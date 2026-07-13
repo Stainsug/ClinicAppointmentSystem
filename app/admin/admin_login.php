@@ -13,7 +13,11 @@ session_set_cookie_params([
 ]);
 session_start();
 
-if (isset($_GET['logout']) && $_GET['logout'] === '1') {
+if (!empty($_SESSION['admin_logout_csrf_token'])
+    && $_SERVER['REQUEST_METHOD'] === 'POST'
+    && ($_POST['action'] ?? '') === 'logout'
+    && hash_equals($_SESSION['admin_logout_csrf_token'], $_POST['csrf_token'] ?? '')
+) {
     $_SESSION = [];
 
     if (ini_get('session.use_cookies')) {
@@ -32,6 +36,10 @@ if (isset($_GET['logout']) && $_GET['logout'] === '1') {
     session_destroy();
     header('Location: admin_login.php');
     exit;
+}
+
+if (empty($_SESSION['admin_logout_csrf_token'])) {
+    $_SESSION['admin_logout_csrf_token'] = bin2hex(random_bytes(32));
 }
 
 if (!empty($_SESSION['is_admin_logged_in']) && !empty($_SESSION['admin_id'])) {
@@ -163,7 +171,7 @@ $usernameValue = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             background:
                 linear-gradient(135deg, rgba(238, 247, 255, 0.58), rgba(231, 248, 239, 0.58)),
-                url('assets/images/admin-auth-bg.svg') center/cover no-repeat fixed,
+                url('assets/images/admin-workspace-bg.svg') center/cover no-repeat fixed,
                 linear-gradient(135deg, var(--bg1), var(--bg2));
             background-blend-mode: normal;
             display: flex;

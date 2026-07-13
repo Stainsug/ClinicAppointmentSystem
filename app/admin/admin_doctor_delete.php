@@ -2,7 +2,18 @@
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/admin_auth.php';
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: admin_doctors.php?error=1');
+    exit;
+}
+
+$csrfToken = $_POST['csrf_token'] ?? '';
+if (empty($_SESSION['admin_doctor_csrf_token']) || !hash_equals($_SESSION['admin_doctor_csrf_token'], $csrfToken)) {
+    header('Location: admin_doctors.php?error=1');
+    exit;
+}
+
+$id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 
 if ($id <= 0) {
     header('Location: admin_doctors.php?error=1');

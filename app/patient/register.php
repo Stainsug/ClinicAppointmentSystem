@@ -1,6 +1,22 @@
 <?php
 require_once __DIR__ . '/../../config.php';
 
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443);
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => $isHttps,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+session_start();
+
+if (empty($_SESSION['patient_register_csrf_token'])) {
+    $_SESSION['patient_register_csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $errors = [];
 $successMessage = '';
 
@@ -9,11 +25,16 @@ $email = '';
 $phone = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf_token'] ?? '';
     $fullname = trim($_POST['fullname'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirmPassword = $_POST['confirm_password'] ?? '';
+
+    if (!hash_equals($_SESSION['patient_register_csrf_token'], $csrfToken)) {
+        $errors[] = 'Invalid request token. Please refresh and try again.';
+    }
 
     if ($fullname === '') {
         $errors[] = 'Full name is required.';
@@ -127,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             background:
                 linear-gradient(130deg, rgba(240, 247, 255, 0.58), rgba(223, 240, 232, 0.58)),
-                url('assets/images/patient-auth-bg.svg') center/cover no-repeat fixed,
+                url('assets/images/patient-workspace-bg.svg') center/cover no-repeat fixed,
                 linear-gradient(130deg, var(--bg1), var(--bg2));
             background-blend-mode: normal;
             color: var(--text);
@@ -279,6 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="POST" action="">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['patient_register_csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
             <div class="field">
                 <label for="fullname">Full Name</label>
                 <input

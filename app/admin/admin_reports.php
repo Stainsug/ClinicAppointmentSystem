@@ -99,7 +99,14 @@ $statusSummaryValues = [
     <link rel="stylesheet" href="assets/css/refined-theme.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <style>
-        body { background: linear-gradient(135deg, #f3f8ff, #e7f8ee); min-height: 100vh; }
+        body {
+            background:
+                linear-gradient(135deg, rgba(243, 248, 255, 0.56), rgba(231, 248, 238, 0.56)),
+                url('assets/images/admin-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(135deg, #f3f8ff, #e7f8ee);
+            background-blend-mode: normal;
+            min-height: 100vh;
+        }
         .page-wrap { max-width: 1240px; margin: 30px auto; padding: 0 16px; }
         .panel { background: #fff; border-radius: 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); padding: 24px; margin-bottom: 16px; }
         .title-row { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
@@ -127,6 +134,11 @@ $statusSummaryValues = [
                     $adminActivePage = 'reports';
                     require __DIR__ . '/../../includes/partials/admin_nav.php';
                 ?>
+            </div>
+            <div class="section-hero">
+                <p class="page-kicker">Insights</p>
+                <h3 class="page-title"><span class="hero-chip">R</span>Clinic Performance Snapshot</h3>
+                <p class="page-subtitle">Track trends, status mix, and doctor workload from one unified reporting view.</p>
             </div>
             <div class="kpi-grid">
                 <article class="kpi"><h4>Today Appointments</h4><div class="value"><?php echo $summary['today_appointments']; ?></div></article>
@@ -187,7 +199,15 @@ $statusSummaryValues = [
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <tr><td colspan="6" class="text-center text-muted py-4">No report data available.</td></tr>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">R</div>
+                                        <h4>No report data available</h4>
+                                        <p>Appointments and status updates will populate this report automatically.</p>
+                                    </div>
+                                </td>
+                            </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -219,7 +239,15 @@ $statusSummaryValues = [
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <tr><td colspan="5" class="text-center text-muted py-4">No appointments in the last 30 days.</td></tr>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">T</div>
+                                        <h4>No recent appointments</h4>
+                                        <p>Once activity starts, the last 30 day trend appears here.</p>
+                                    </div>
+                                </td>
+                            </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>

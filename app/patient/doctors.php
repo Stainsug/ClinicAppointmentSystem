@@ -31,7 +31,11 @@ $result = mysqli_query($conn, $sql);
     <link rel="stylesheet" href="assets/css/refined-theme.css">
     <style>
         body {
-            background: linear-gradient(135deg, #f3f8ff, #e7f8ee);
+            background:
+                linear-gradient(135deg, rgba(243, 248, 255, 0.56), rgba(231, 248, 238, 0.56)),
+                url('assets/images/patient-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(135deg, #f3f8ff, #e7f8ee);
+            background-blend-mode: normal;
             min-height: 100vh;
         }
         .page-wrap {
@@ -65,6 +69,12 @@ $result = mysqli_query($conn, $sql);
                 </div>
             </div>
 
+            <div class="section-hero">
+                <p class="page-kicker">Directory</p>
+                <h3 class="page-title">Find the Right Specialist</h3>
+                <p class="page-subtitle">Review doctor profiles before choosing a timeslot on the booking page.</p>
+            </div>
+
             <p class="text-muted">Browse doctors and their specialties before booking an appointment.</p>
 
             <div class="table-responsive">
@@ -89,7 +99,13 @@ $result = mysqli_query($conn, $sql);
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="4" class="text-center text-muted py-4">No doctors found yet.</td>
+                                <td colspan="4">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">D</div>
+                                        <h4>No doctors listed yet</h4>
+                                        <p>The clinic team can add doctors soon. Check back later.</p>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

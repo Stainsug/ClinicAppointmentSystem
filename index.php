@@ -55,7 +55,11 @@ if (!empty($_SESSION['is_admin_logged_in']) && !empty($_SESSION['admin_id'])) {
         body {
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(140deg, var(--bg-a), var(--bg-b));
+            background:
+                linear-gradient(140deg, rgba(243, 249, 255, 0.5), rgba(232, 248, 239, 0.5)),
+                url('assets/images/portal-home-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(140deg, var(--bg-a), var(--bg-b));
+            background-blend-mode: normal;
             color: var(--text);
             display: flex;
             align-items: center;

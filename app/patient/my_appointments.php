@@ -96,7 +96,14 @@ if ($listStmt) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/refined-theme.css">
     <style>
-        body { background: linear-gradient(135deg, #f2f8ff, #e8f8ef); min-height: 100vh; }
+        body {
+            background:
+                linear-gradient(135deg, rgba(242, 248, 255, 0.56), rgba(232, 248, 239, 0.56)),
+                url('assets/images/patient-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(135deg, #f2f8ff, #e8f8ef);
+            background-blend-mode: normal;
+            min-height: 100vh;
+        }
         .page-wrap { max-width: 1160px; margin: 30px auto; padding: 0 16px; }
         .panel { background:#fff; border-radius:14px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); padding:24px; }
         .title-row { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
@@ -111,6 +118,12 @@ if ($listStmt) {
                     <a href="dashboard.php" class="btn btn-outline-secondary">Dashboard</a>
                     <a href="book_appointments.php" class="btn btn-outline-primary">Book Appointment</a>
                 </div>
+            </div>
+
+            <div class="section-hero">
+                <p class="page-kicker">Visits</p>
+                <h3 class="page-title"><span class="hero-chip">M</span>Appointment Timeline</h3>
+                <p class="page-subtitle">Track your upcoming bookings and cancel when plans change.</p>
             </div>
 
             <?php if (!empty($errors)): ?>
@@ -170,7 +183,13 @@ if ($listStmt) {
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-4">No appointments found.</td>
+                                <td colspan="7">
+                                    <div class="empty-state">
+                                        <div class="empty-icon">B</div>
+                                        <h4>No appointments found</h4>
+                                        <p>Start by booking your first visit from the booking page.</p>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

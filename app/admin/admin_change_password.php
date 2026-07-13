@@ -125,7 +125,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin: 0;
             min-height: 100vh;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+            background:
+                linear-gradient(135deg, rgba(238, 247, 255, 0.56), rgba(231, 248, 239, 0.56)),
+                url('assets/images/admin-workspace-bg.svg') center/cover no-repeat fixed,
+                linear-gradient(135deg, var(--bg1), var(--bg2));
+            background-blend-mode: normal;
             display: flex;
             align-items: center;
             justify-content: center;
