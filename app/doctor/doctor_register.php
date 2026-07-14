@@ -155,7 +155,7 @@ $emailValue = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
             min-height: 100vh;
             background:
                 linear-gradient(135deg, rgba(245, 248, 255, 0.56), rgba(231, 247, 239, 0.56)),
-                url('assets/images/doctor-workspace-bg.svg') center/cover no-repeat fixed,
+                url('assets/images/doctor-auth-custom.jpg') center/cover no-repeat fixed,
                 linear-gradient(135deg, var(--bg-a), var(--bg-b));
             background-blend-mode: normal;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

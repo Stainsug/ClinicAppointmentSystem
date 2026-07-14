@@ -171,7 +171,7 @@ $usernameValue = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             background:
                 linear-gradient(135deg, rgba(238, 247, 255, 0.58), rgba(231, 248, 239, 0.58)),
-                url('assets/images/admin-workspace-bg.svg') center/cover no-repeat fixed,
+                url('assets/images/custom-auth-bg.svg') center/cover no-repeat fixed,
                 linear-gradient(135deg, var(--bg1), var(--bg2));
             background-blend-mode: normal;
             display: flex;
