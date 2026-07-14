@@ -1,5 +1,4 @@
 -- Clinic Appointment Booking System Database Script
--- Compatible with MySQL 8+
 
 DROP DATABASE IF EXISTS clinic_appointment_system;
 CREATE DATABASE clinic_appointment_system;

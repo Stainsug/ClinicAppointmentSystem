@@ -1,5 +1,4 @@
 -- Admin module bootstrap SQL
--- Creates Admin table and seeds one secure default account.
 
 CREATE TABLE IF NOT EXISTS Admin (
     admin_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -8,7 +7,6 @@ CREATE TABLE IF NOT EXISTS Admin (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Default admin password: admin123
--- Replace this password immediately after first login in production.
 INSERT INTO Admin (username, password)
 SELECT 'admin', 'admin123'
 WHERE NOT EXISTS (

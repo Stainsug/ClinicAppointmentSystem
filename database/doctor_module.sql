@@ -1,5 +1,4 @@
 -- Doctor Management Module SQL
--- Run this in MySQL to create the Doctor table if it does not already exist.
 
 CREATE TABLE IF NOT EXISTS Doctor (
     doctor_id INT AUTO_INCREMENT PRIMARY KEY,
