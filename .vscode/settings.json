@@ -1,0 +1,7 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "app/": "admin_appointments.php,admin_change_password.php,admin_dashboard.php,admin_doctor_add.php,admin_doctor_delete.php,admin_doctor_edit.php,admin_doctors.php,admin_login.php,admin_reports.php,book_appointments.php,dashboard.php,doctor_add.php,doctor_delete.php,doctor_edit.php,doctor_login.php,doctor_register.php,doctors.php,login.php,my_appointments.php,register.php,schedule_delete.php,schedule_edit.php,schedule_manage.php"
+  }
+}
