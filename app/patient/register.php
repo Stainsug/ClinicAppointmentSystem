@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             background:
                 linear-gradient(130deg, rgba(240, 247, 255, 0.58), rgba(223, 240, 232, 0.58)),
-                url('assets/images/patient-workspace-bg.svg') center/cover no-repeat fixed,
+                url('assets/images/patient-auth-custom.png') center/cover no-repeat fixed,
                 linear-gradient(130deg, var(--bg1), var(--bg2));
             background-blend-mode: normal;
             color: var(--text);
